@@ -1,11 +1,13 @@
+//Libraries
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import { PixelRatio } from 'react-native';
+import { Text, TouchableOpacity, PixelRatio } from 'react-native';
+//Font Size Adjustment
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
 const {height:h, width:w} = Dimensions.get('window');
+//Style
+import { lightColor } from '../../styles/colors';
 
-//{ onPress, customStyle, children }
 const Button = (props) => {
   const { buttonStyle, textStyle } = styles;
 
@@ -28,7 +30,7 @@ const styles = {
   buttonStyle: {
     alignSelf: 'stretch',
     justifyContent: 'center',
-    backgroundColor: '#f0f3bd',
+    backgroundColor: lightColor,
     borderWidth: 2,
     borderColor: '#02c39a',
     flex: 1,

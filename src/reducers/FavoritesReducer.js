@@ -6,12 +6,14 @@ import {
   UPDATE_FAVORITE_TITLE,
   RESET_FAVORITE_MODAL,
   SELECT_FAVORITE,
-  REMOVE_FAVORITE_SUCCESS
+  REMOVE_FAVORITE_SUCCESS,
+  TOGGLE_REVIEW_MODAL
 } from '../actions/types';
 
 const INITIAL_STATE = {
     favoriteItems: {},
     showModal: false,
+    showReviewModal: false,
     favoriteTitle: '',
     modalStage: 0,
     selectedFavorite: null
@@ -27,6 +29,9 @@ export default (state = INITIAL_STATE, action) => {
     case TOGGLE_FAVORITE_MODAL:
       const toggledModalBool = !state.showModal;
       return { ...state, showModal:toggledModalBool };
+    case TOGGLE_REVIEW_MODAL:
+      const toggledReviewModalBool = !state.showReviewModal;
+      return { ...state, showReviewModal:toggledModalBool };
     case ADD_FAVORITE_START:
       return { ...state, modalStage:1};
     case ADD_FAVORITE_SUCCESS:
@@ -34,7 +39,7 @@ export default (state = INITIAL_STATE, action) => {
     case REMOVE_FAVORITE_SUCCESS:
       return { ...state, modalStage:3};
     case RESET_FAVORITE_MODAL:
-      return { ...state, modalStage:0, showModal:false, favoriteTitle: ''};
+      return { ...state, modalStage:0, showModal:false, showReviewModal: false, favoriteTitle: ''};
     case SELECT_FAVORITE:
       return { ...state, selectedFavorite:action.payload}
     default:

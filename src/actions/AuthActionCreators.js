@@ -2,14 +2,14 @@ import firebase from 'firebase';
 import {
     UPDATE_LOGIN_ENTRY,
     LOGIN_SUCCESS,
-    LOGIN_FAIL,
     LOGIN_START,
     CREATE_USER_START,
-    CREATE_USER_FAIL,
+    AUTH_FAIL,
     NAVIGATE_IN_AUTH,
     LOGOUT_START,
     LOGOUT_SUCCESS,
-    LOGOUT
+    LOGOUT,
+    UPDATE_ERROR_MESSAGE
 } from './types';
 import { Actions } from 'react-native-router-flux';
 
@@ -25,7 +25,7 @@ export const loginUser = ({ email, password}) => {
     dispatch({ type: LOGIN_START });
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
-      .catch(() => loginUserFail(dispatch));
+      .catch((error) => authFail(dispatch, error));
   }
 };
 
@@ -45,7 +45,7 @@ export const createUser = ({ email, password}) => {
     dispatch({ type: CREATE_USER_START });
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(user => loginUserSuccess(dispatch, user))
-      .catch(() => createUserFail(dispatch));
+      .catch((error) => authFail(dispatch, error));
   }
 };
 
@@ -56,19 +56,21 @@ const loginUserSuccess = (dispatch, user) => {
     });
     Actions.main();
 };
-const loginUserFail = (dispatch) => {
-    dispatch({
-        type: LOGIN_FAIL
-    });
 
-};
-const createUserFail = (dispatch) => {
+const authFail = (dispatch, error) => {
     dispatch({
-        type: CREATE_USER_FAIL
+        type: AUTH_FAIL,
+        payload: error.message
     });
 };
 export const navigateInAuth = () => {
     return {
         type: NAVIGATE_IN_AUTH
+    };
+};
+export const updateError = (error) => {
+    return {
+        type: UPDATE_ERROR_MESSAGE,
+        payload: error
     };
 };

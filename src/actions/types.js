@@ -27,14 +27,14 @@ export const UPDATE_TEA_PRICE = 'update_TEA_price';
 //Auth
 export const UPDATE_LOGIN_ENTRY = "update_login_entry";
 export const LOGIN_SUCCESS = 'login_success';
-export const LOGIN_FAIL = 'login_fail';
 export const LOGIN_START = 'login_start';
 export const CREATE_USER_START = 'create_user_start';
-export const CREATE_USER_FAIL = 'create_user_fail';
+export const AUTH_FAIL = 'AUTH_fail';
 export const NAVIGATE_IN_AUTH = 'navigate_in_auth';
 export const LOGOUT = 'logout';
 export const LOGOUT_START = 'LOGOUT_start';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const UPDATE_ERROR_MESSAGE = 'UPDATE_ERROR_MESSAGE';
 //Order
 export const ADD_TO_ORDER_START = 'add_to_cart_start';
 export const ADD_TO_ORDER_SUCCESS = 'add_to_cart_success';
@@ -50,3 +50,9 @@ export const ADD_FAVORITE_SUCCESS ='ADD_FAVORITE_SUCCESS';
 export const FAVORITES_FETCH_SUCCESS = 'FAVORITES_FETCH_SUCCESS';
 export const SELECT_FAVORITE = 'SELECT_FAVORITE';
 export const REMOVE_FAVORITE_SUCCESS = 'REMOVE_FAVORITE_SUCCESS';
+export const TOGGLE_REVIEW_MODAL ='TOGGLE_REVIEW_MODAL';
+//Locations
+export const LOCATIONS_FETCH_SUCCESS = 'LOCATIONS_FETCH_SUCCESS';
+export const UPDATE_CURRENT_STORE = 'UPDATE_CURRENT_STORE';
+//Menus
+export const MENU_FETCH_SUCCESS = 'MENU_FETCH_SUCCESS';

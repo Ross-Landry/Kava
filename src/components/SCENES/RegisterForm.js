@@ -3,12 +3,24 @@ import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Button, Card, CardSection, Input, Spinner } from '../common';
 import * as actions from '../../actions/AuthActionCreators';
+//Font Adjustment
+import { PixelRatio } from 'react-native';
+import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
+import Dimensions from 'Dimensions';
+const {height:h, width:w} = Dimensions.get('window');
 
 class RegisterForm extends Component {
 
+  state = {};
+
   onButtonPress() {
-    const { email, password } = this.props;
-    this.props.createUser({email, password});
+    const { email, password, confirmPassword } = this.props;
+    if (password === confirmPassword){
+      this.props.createUser({email, password});
+    }
+    else {
+      this.props.updateError("Passwords don't match.");
+    }
   }
 
   renderButton() {
@@ -50,6 +62,8 @@ class RegisterForm extends Component {
             secureTextEntry
             placeholder="password"
             label="Confirm"
+            value={this.props.confirmPassword}
+            onChangeText={value => this.props.updateLoginEntry({ prop: 'confirmPassword', value })}
           />
         </CardSection>
         <Text style={styles.errorTextStyle}>
@@ -68,12 +82,12 @@ class RegisterForm extends Component {
 
 const styles = {
   errorTextStyle: {
-    fontSize: 16,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, w,h,14),
     alignSelf: 'center',
     color: 'red'
   },
   linkTextStyle: {
-    fontSize: 16,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, w,h,14),
     alignSelf: 'center',
     color: 'black',
     padding: 10
@@ -82,9 +96,9 @@ const styles = {
 
 const mapStateToProps = ( { auth } ) => {
 
-  const { email, password, error, loading } = auth;
+  const { email, password, confirmPassword, error, loading } = auth;
 
-  return { email, password, error, loading };
+  return { email, password, confirmPassword, error, loading };
 
 };
 

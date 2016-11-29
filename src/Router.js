@@ -10,6 +10,11 @@ import Menu from './components/SCENES/Menu';
 import Checkout from './components/SCENES/Checkout';
 import Favorites from './components/SCENES/Favorites';
 import * as actions from './actions/AuthActionCreators';
+//Font Adjustment
+import { PixelRatio } from 'react-native';
+import { getCorrectFontSizeForScreen } from './helpers/multipleResolution';
+import Dimensions from 'Dimensions';
+const {height:h, width:w} = Dimensions.get('window');
 
 class RouterComponent extends Component {
 
@@ -29,17 +34,69 @@ class RouterComponent extends Component {
             titleStyle={styles.navTitle} >
 
                 <Scene key="auth" barButtonIconStyle={{ tintColor:'black' }} >
-                  <Scene key="login" component={LoginForm} title="KAVA" type={ActionConst.RESET} />
-                  <Scene key="register" component={RegisterForm} title="KAVA" onBack={() => this.onBackToLogin() } />
+                  <Scene key="login" 
+                                        component={LoginForm} 
+                                        title="KAVA" 
+                                        type={ActionConst.RESET} />
+                  <Scene key="register" 
+                                        component={RegisterForm} 
+                                        title="KAVA" 
+                                        onBack={() => this.onBackToLogin() } 
+                                        backTitle="LOGIN"
+                                        backButtonTextStyle={styles.backButtonStyle} />
                 </Scene>
 
                 <Scene key="main" barButtonIconStyle={{ tintColor:'black' }} rightButtonTextStyle={{color: 'black', fontSize: 14}}>
-                  <Scene key="locations" component={Locations} title="LOCATIONS" rightTitle='Log Out' onRight={()=> this.onRightNavPress() } />
-                  <Scene key="menu" component={Menu} title="MENU" rightTitle='Log Out' onRight={()=> this.onRightNavPress() } />
-                  <Scene key="coffee" component={Coffee} title="COFFEE" rightTitle='Log Out' onRight={()=> this.onRightNavPress() } />
-                  <Scene key="tea" component={Tea} title="TEA" rightTitle='Log Out' onRight={()=> this.onRightNavPress() } />
-                  <Scene key="favorites" component={Favorites} title="FAVORITES" rightTitle='Log Out' onRight={()=> this.onRightNavPress() } />
-                  <Scene key="checkout" component={Checkout} title="KAVA" rightTitle='Log Out' onRight={ () => this.onRightNavPress() } />
+                    <Scene key="locations" 
+                                        component={Locations} 
+                                        title="LOCATIONS" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon}
+                                        onRight={()=> this.onRightNavPress() } />
+                    <Scene key="menu" 
+                                        component={Menu} 
+                                        title="MENU" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon}
+                                        onBack={()=> Actions.locations() }
+                                        onRight={()=> this.onRightNavPress() } 
+                                        backTitle="LOCATION" 
+                                        backButtonTextStyle={styles.backButtonStyle}/>
+                    <Scene key="coffee" 
+                                        component={Coffee} 
+                                        title="COFFEE" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon}
+                                        onRight={()=> this.onRightNavPress() } 
+                                        onBack={()=> Actions.menu() }
+                                        backTitle="MENU" 
+                                        backButtonTextStyle={styles.backButtonStyle}/>
+                    <Scene key="tea" 
+                                        component={Tea} 
+                                        title="TEA" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon}
+                                        onRight={()=> this.onRightNavPress() }
+                                        onBack={()=> Actions.menu() }
+                                        backTitle="MENU" 
+                                        backButtonTextStyle={styles.backButtonStyle} />
+                    <Scene key="favorites" 
+                                        component={Favorites} 
+                                        title="FAVORITES" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon}
+                                        onRight={()=> this.onRightNavPress() } 
+                                        onBack={()=> Actions.menu() }
+                                        backTitle="MENU" 
+                                        backButtonTextStyle={styles.backButtonStyle} />
+                    <Scene key="checkout" 
+                                        component={Checkout} title="KAVA" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon} 
+                                        onBack={()=> Actions.menu() } 
+                                        backTitle="MENU"
+                                        backButtonTextStyle={styles.backButtonStyle}
+                                        onRight={ () => this.onRightNavPress() } />
                 </Scene>
         </Router>
       );
@@ -57,6 +114,16 @@ const styles = {
   color: 'black',
   fontWeight: 'bold'
   },
+  backButtonStyle: {
+    color: 'black',
+    fontWeight:'bold',
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, w,h,10),
+    alignSelf:'center'
+  },
+  menuIcon: {
+    height: w*0.075,
+    width: w*0.075
+  }
 }
 
 

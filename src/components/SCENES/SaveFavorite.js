@@ -3,17 +3,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, TouchableHighlight, TouchableOpacity, View, Modal, StyleSheet, PixelRatio, TextInput } from 'react-native';
 //Font adjustment
-import { getCorrectFontSizeForScreen } from '../helpers/multipleResolution';
+import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
 const {height:h, width:w} = Dimensions.get('window');
 //Custom
-import ItemDescription from './saveModalSections/ItemDescription';
-import NameFavorite from './saveModalSections/NameFavorite';
-import { resetFavoriteModal } from '../actions/FavoritesActionCreators';
-import { Spinner, Button } from './common';
-import X from './saveModalSections/closeModalX';
+import ItemDescription from '../saveFavorite/ItemDescription';
+import NameFavorite from '../saveFavorite/NameFavorite';
+import { resetFavoriteModal } from '../../actions/FavoritesActionCreators';
+import { Spinner, Button } from '../common';
+import X from '../saveFavorite/closeModalX';
 
-class SaveFavoriteModal extends Component {
+class SaveFavorite extends Component {
   dismissModal() {
     this.props.resetFavoriteModal();
   }
@@ -73,31 +73,18 @@ class SaveFavoriteModal extends Component {
           animationType={"slide"}
           transparent={true}
           visible={this.props.showModal}>
-             <TouchableOpacity onPress={()=>this.dismissModal()}>
-                <View style={styles.x}>
-                  <X />
-                </View>
-             </TouchableOpacity>
-             <View style={{flexDirection: 'column', flex:1}}>
+             <View style={{flexDirection: 'column', flex:1, position: 'absolute', right: w*0.01, top:h*0.01, height:h*0.99, width: w*0.99}}>
                   {this.renderContent()}
              </View>
+             <TouchableOpacity onPress={()=>this.dismissModal()}>
+                  <X />
+             </TouchableOpacity>
       </Modal>
     );
   }
 }
 
 var styles = StyleSheet.create({
-  x: {
-    backgroundColor:'white',
-    height: h*0.05,
-    width: h*0.05,
-    alignSelf: 'flex-end',
-    marginRight: 15,
-    borderColor: 'black',
-    borderRadius: 2,
-    borderWidth: 1,
-    marginTop: 30
-  },
   textContainer: {
     flex:6,
     justifyContent:'center',
@@ -128,4 +115,4 @@ const mapStateToProps = (state) => {
   return { showModal, modalStage };
 };
 
-export default connect(mapStateToProps, {resetFavoriteModal})(SaveFavoriteModal);
+export default connect(mapStateToProps, {resetFavoriteModal})(SaveFavorite);

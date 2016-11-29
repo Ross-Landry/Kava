@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     loading: false,
     orderItems: {},
     selectedItem: null,
-    showModal: false
+    showModal: false,
+    location: 'KWtHoHTaeVVYYWoFu7V'
 };
 
 export default (state = INITIAL_STATE, action) => {

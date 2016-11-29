@@ -3,6 +3,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { ListView,  StyleSheet, View, Text, PixelRatio } from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 //Custom
 import { Button } from '../common';
 import Totals from '../checkout/Totals';
@@ -28,6 +29,12 @@ class Checkout extends Component {
       this.dataSource = ds.cloneWithRows(items);
     }
 
+    submitOrder(items){
+        //***TODO: update hardcoded values for location, customer, password, etc. ***
+        firebase.database().ref(`/openOrders/${this.props.location.uid}`)
+        .push({customer: 'Ross Landry', status: 'Submitted', items})
+    }
+
     renderRow(item) { return <OrderItem item={item} /> }
 
     render() {
@@ -43,7 +50,7 @@ class Checkout extends Component {
             </View>
             <Totals />
             <BalanceBar />
-          <Button customStyle={{flex:4}}>SUBMIT ORDER</Button>
+          <Button customStyle={{flex:4}} onPress={()=>{this.submitOrder(this.props.items)}}>SUBMIT ORDER</Button>
         </View>
       );
     }
@@ -77,7 +84,9 @@ const mapStateToProps = state => {
         return { ...val, uid };
     });
 
-    return { items };
+    const location = state.location.currentStore;
+
+    return { items, location };
 };
 
 export default connect (mapStateToProps, { orderFetch })(Checkout);

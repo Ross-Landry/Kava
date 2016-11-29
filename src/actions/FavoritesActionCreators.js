@@ -7,7 +7,8 @@ import {
     UPDATE_FAVORITE_TITLE,
     RESET_FAVORITE_MODAL,
     SELECT_FAVORITE,
-    REMOVE_FAVORITE_SUCCESS
+    REMOVE_FAVORITE_SUCCESS,
+    TOGGLE_REVIEW_MODAL
 } from './types';
 import { Actions } from 'react-native-router-flux';
 
@@ -24,6 +25,12 @@ export const favoritesFetch = () => {
 export const toggleFavoriteModal = () => {
   return {
     type: TOGGLE_FAVORITE_MODAL
+  };
+};
+
+export const toggleReviewModal = () => {
+  return {
+    type: TOGGLE_REVIEW_MODAL
   };
 };
 

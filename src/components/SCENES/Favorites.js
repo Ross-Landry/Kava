@@ -65,7 +65,7 @@ const styles = {
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 1,
-    marginTop: 3,
+    marginTop: 1,
     justifyContent: 'center',
     flex:27
   }

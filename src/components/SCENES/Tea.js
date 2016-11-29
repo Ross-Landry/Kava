@@ -4,12 +4,12 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 //Custom Components
-import HotIced from '../teaSections/HotIced';
-import CreamSugar from '../teaSections/CreamSugar';
-import CheckOutButtons from '../teaSections/CheckOutButtons';
-import RegDecaf from '../teaSections/RegDecaf';
-import SizeSelector from '../teaSections/SizeSelector';
-import SaveFavoriteModal from '../SaveFavoriteModal';
+import HotIced from '../tea/HotIced';
+import CreamSugar from '../tea/CreamSugar';
+import CheckOutButtons from '../tea/CheckOutButtons';
+import RegDecaf from '../tea/RegDecaf';
+import SizeSelector from '../tea/SizeSelector';
+import SaveFavorite from './SaveFavorite';
 
 class Tea extends Component {
   render(){
@@ -20,7 +20,7 @@ class Tea extends Component {
             <RegDecaf />
             <CreamSugar />
             <CheckOutButtons />
-            <SaveFavoriteModal item={this.props.item}/>
+            <SaveFavorite item={this.props.item}/>
           </View>
       );
   }

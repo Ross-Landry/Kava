@@ -4,13 +4,13 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 
 //Custom Components
-import HotIced from '../coffeeSections/HotIced';
-import CreamSugar from '../coffeeSections/CreamSugar';
-import EspressoFlavor from '../coffeeSections/EspressoFlavor';
-import CheckOutButtons from '../coffeeSections/CheckOutButtons';
-import RegDecaf from '../coffeeSections/RegDecaf';
-import SizeSelector from '../coffeeSections/SizeSelector';
-import SaveFavoriteModal from '../SaveFavoriteModal';
+import HotIced from '../coffee/HotIced';
+import CreamSugar from '../coffee/CreamSugar';
+import EspressoFlavor from '../coffee/EspressoFlavor';
+import CheckOutButtons from '../coffee/CheckOutButtons';
+import RegDecaf from '../coffee/RegDecaf';
+import SizeSelector from '../coffee/SizeSelector';
+import SaveFavorite from './SaveFavorite';
 
 class Coffee extends Component {
 
@@ -23,7 +23,7 @@ class Coffee extends Component {
             <CreamSugar />
             <EspressoFlavor />
             <CheckOutButtons />
-            <SaveFavoriteModal item={this.props.item}/>
+            <SaveFavorite item={this.props.item}/>
           </View>
       );
     }

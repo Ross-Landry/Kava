@@ -1,49 +1,78 @@
+//Libraries
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, PixelRatio } from 'react-native';
+import { View, PixelRatio, ListView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button } from '../common'
+import { connect } from 'react-redux';
+import _ from 'lodash';
+//Font Size Adjustment
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
 const {height:h, width:w} = Dimensions.get('window');
+//Custom
+import { Button } from '../common'
+import { menuFetch } from '../../actions/MenuActionCreators';
+import MenuItem from '../menu/MenuItem';
+import CurrentLocation from '../location/CurrentLocationBanner';
+import { card } from '../../styles/styleObjects';
 
 class Menu extends Component {
-    state = {};
+    
+    componentWillMount() {this.props.menuFetch(); this.createDataSource(this.props);}
+
+    componentWillReceiveProps(nextProps) { this.createDataSource(nextProps);}
+
+    createDataSource({ menu }) {
+      const ds = new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2
+      });
+
+      this.dataSource = ds.cloneWithRows(menu);
+    }
+
+    renderRow(menuItem) { return <MenuItem item={menuItem} /> }
+    
     render() {
+      const { favorites } = styles
       return (
+     
       <View style={{flexDirection: 'column', flex: 1}}>
-        <View style={styles.menuContainer} >
-          <TouchableOpacity onPress={()=>{ Actions.coffee() }}>
-            <Text style={styles.menuItemText}>Coffee</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{ Actions.tea() }}>
-            <Text style={styles.menuItemText}>Tea</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.menuItemText}>Snacks</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>{ Actions.favorites() }}>
-            <Text style={styles.menuItemText}>Favorites</Text>
-          </TouchableOpacity>
-        </View>
-        <Button customStyle={{flex:4}} onPress={() => Actions.checkout() }>Review Current Order</Button>
+          <CurrentLocation />
+          <View style={[card, {flex:21}]}>
+              <ListView
+                enableEmptySections
+                dataSource={this.dataSource}
+                renderRow={this.renderRow} />
+          </View>
+          <View style={{flex:4}}>
+              <MenuItem item={favorite} customStyle={favorites}/>
+          </View>
+          <Button customStyle={{flex:4}} onPress={() => Actions.checkout() }>
+              Review Current Order
+          </Button>
       </View>
       );
     }
 };
-``
+
+const favorite = {
+    component:"Favorites", 
+    routerKey:"favorites", 
+    uid: "Favorites"
+};
 const styles = {
-  menuContainer: {
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'column',
-    position: 'relative',
-    flex: 27,
-    padding: 10
-  },
-  menuItemText: {
-    fontSize: getCorrectFontSizeForScreen(PixelRatio, w,h,20)
+  favorites: {
+    fontWeight: '600',
   }
 };
 
 
-export default Menu;
+const mapStateToProps = state => {
+    
+    const menu = _.map(state.menu.menu, (val, uid) => {
+        return { ...val, uid };
+    });
+    return { menu };
+};
+
+
+export default connect (mapStateToProps, { menuFetch })(Menu);

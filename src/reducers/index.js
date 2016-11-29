@@ -3,7 +3,9 @@ import CoffeeReducer from './CoffeeReducer';
 import TeaReducer from './TeaReducer';
 import AuthReducer from './AuthReducer';
 import OrderReducer from './OrderReducer';
-import FavoritesReducer from './FavoritesReducer'
+import FavoritesReducer from './FavoritesReducer';
+import LocationReducer from './LocationReducer';
+import MenuReducer from './MenuReducer';
 
 
 export default combineReducers({
@@ -11,5 +13,7 @@ export default combineReducers({
     currentTea: TeaReducer,
     auth: AuthReducer,
     order: OrderReducer,
-    favorites: FavoritesReducer
+    favorites: FavoritesReducer,
+    location: LocationReducer,
+    menu: MenuReducer
   });

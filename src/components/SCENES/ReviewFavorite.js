@@ -7,10 +7,11 @@ import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
 const {height:h, width:w} = Dimensions.get('window');
 //Custom
-import ItemDescription from '../saveModalSections/ItemDescription';
-import NameFavorite from '../saveModalSections/NameFavorite';
+import ItemDescription from '../saveFavorite/ItemDescription';
+import NameFavorite from '../saveFavorite/NameFavorite';
 import { resetFavoriteModal, addFavoriteToOrder, removeFavorite } from '../../actions/FavoritesActionCreators';
 import { Spinner, Button } from '../common';
+import X from '../saveFavorite/closeModalX'
 
 class ReviewFavorite extends Component {
   dismissModal() {
@@ -103,16 +104,28 @@ class ReviewFavorite extends Component {
       <Modal
           animationType={"slide"}
           transparent={true}
-          visible={this.props.showModal}>
-               <View style={{flexDirection: 'column', flex:1}}>
+          visible={this.props.showReviewModal}>
+               <View style={styles.modalContainer}>
                     {this.renderContent()}
                </View>
+               <TouchableOpacity onPress={()=>this.dismissModal()}>
+                    <X />
+               </TouchableOpacity>
       </Modal>
     );
   }
 }
 
 var styles = StyleSheet.create({
+  modalContainer: {
+    flexDirection: 'column',
+    flex:1,
+    position: 'absolute',
+    right: w*0.01,
+    top:h*0.01,
+    height:h*0.99,
+    width: w*0.99
+  },
   textContainer: {
     flex:6,
     justifyContent:'center',
@@ -142,9 +155,9 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 
-  const { showModal, modalStage } = state.favorites;
+  const { showReviewModal, modalStage } = state.favorites;
 
-  return { showModal, modalStage };
+  return { showReviewModal, modalStage };
 };
 
 export default connect(mapStateToProps, {resetFavoriteModal, addFavoriteToOrder, removeFavorite})(ReviewFavorite);

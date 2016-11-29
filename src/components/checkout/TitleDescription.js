@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, PixelRatio, Text } from 'react-native';
+//Font Adjustment
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
 const {height:h, width:w} = Dimensions.get('window');
+//Style
+import { mainFont } from '../../styles/styleObjects';
 
 class TitleDescription extends Component {
 
@@ -12,7 +15,7 @@ class TitleDescription extends Component {
     return(
       <View style={[containerStyle, itemTitleDescriptionContainer]}>
         <View>
-          <Text style={itemText}>
+          <Text style={[itemText, mainFont]}>
             {this.props.title}
           </Text>
         </View>
