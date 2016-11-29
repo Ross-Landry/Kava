@@ -1,0 +1,44 @@
+TO DO
+  Location
+    -Use geofire to do a conditional fetch. Get locations within X miles of coordinates Y,Z. Hardcode user location to start.
+    -Change the hardcoded user coordinates to actually pull from the user's GPS
+    -If possible, list the locations with the closest at the top
+  Business Side
+    -Create new app with a ListView
+    -Hardcode a location into a redux store
+    -Instantiate firebase on index.ios
+    -Pull in orders from firebase with componentWillMount of ListView component
+    -Make OrderMetaItem component to fill in the list 
+    -onPress move to a new component that will also be a ListView
+    -The order ListView will render the order items
+
+    Current location banner - when clicked it should bring up a modal with details about that location. The user can then click to navigate to the change location scene or say 'ok' and return to the menu
+
+    Menu - should filter menu items to only show items that match with it's own menu. 
+
+    Locations - should have a subtitle that displays the location's address below the title. 
+
+    Save Favorites - move the text input line to be more intuitive ; make sure that it is easy to exit the keyboard. clicking on the screen should dismiss the keyboard. 
+
+    Snacks - list view with item titles and a short description below it, the price will be on the right. OnPress render a details component with a picture, a more detailed description, the price, and an 'add to order' button. 
+
+
+*********************** Liabilities ************************
+
+** Check the confirm password entry on registration screen (only let the user submit the form if the passwords match)
+
+**Make sure that users can’t add items to cart or favorites -if they have not completed the form. (Not selected a size etc.)
+
+**Disable landscape view. Portrait only
+
+**Currently hard coded price and location data will need to come from the database. Eg: Price of certain coffee sizes and expresso shots etc. If hard coded then we will not be able to update the prices without user updating the app.
+
+**Extra Long coffee descriptions run off the page. Perhaps cut them into two lines. decaf, espresso, and flavor on the first, Cream/Sugar on the next 
+
+**Lemon and Honey buttons needed for tea
+
+**Error handling!! Add catches to network requests and notify user when there are issues
+
+**For now just assuming that the GPS will be enabled. Eventually need to add the option to search loations by zip code, address etc. 
+
+**When you select the lowest item on the checkout listView the buttons render outside of view
