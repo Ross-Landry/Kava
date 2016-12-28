@@ -35,12 +35,14 @@ export const LOGOUT = 'logout';
 export const LOGOUT_START = 'LOGOUT_start';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const UPDATE_ERROR_MESSAGE = 'UPDATE_ERROR_MESSAGE';
+export const FETCH_NAME = 'FETCH_NAME';
 //Order
 export const ADD_TO_ORDER_START = 'add_to_cart_start';
 export const ADD_TO_ORDER_SUCCESS = 'add_to_cart_success';
 export const ORDER_FETCH_SUCCESS = 'order_fetch_success';
 export const SELECT_ORDER_ITEM = 'select_order_item';
 export const REMOVE_CART_ITEM = 'remove_cart_item';
+export const UPDATE_ORDER_PRICE = 'UPDATE_ORDER_PRICE';
 //Favorites
 export const TOGGLE_FAVORITE_MODAL = 'toggle_favorite_modal';
 export const UPDATE_FAVORITE_TITLE = 'update_favorite_title';
@@ -56,3 +58,5 @@ export const LOCATIONS_FETCH_SUCCESS = 'LOCATIONS_FETCH_SUCCESS';
 export const UPDATE_CURRENT_STORE = 'UPDATE_CURRENT_STORE';
 //Menus
 export const MENU_FETCH_SUCCESS = 'MENU_FETCH_SUCCESS';
+//SideMenu
+export const TOGGLE_SIDE_MENU = 'TOGGLE_SIDE_MENU';

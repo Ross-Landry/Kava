@@ -9,7 +9,10 @@ import Locations from './components/SCENES/Locations';
 import Menu from './components/SCENES/Menu';
 import Checkout from './components/SCENES/Checkout';
 import Favorites from './components/SCENES/Favorites';
-import * as actions from './actions/AuthActionCreators';
+import { toggleSideMenu } from './actions/SideMenuActionCreators';
+import {logoutUser, navigateInAuth} from './actions/AuthActionCreators';
+
+import OrderTracking from './components/SCENES/OrderTracking';
 //Font Adjustment
 import { PixelRatio } from 'react-native';
 import { getCorrectFontSizeForScreen } from './helpers/multipleResolution';
@@ -19,11 +22,14 @@ const {height:h, width:w} = Dimensions.get('window');
 class RouterComponent extends Component {
 
   onRightNavPress() {
-      this.props.logoutUser();
+    this.props.toggleSideMenu();
   }
   onBackToLogin() {
-    Actions.login();
+    Actions.pop();
     this.props.navigateInAuth();
+  }
+  logout(){
+    this.props.logoutUser();
   }
   render() {
 
@@ -33,7 +39,7 @@ class RouterComponent extends Component {
             navigationBarStyle={styles.navBar}
             titleStyle={styles.navTitle} >
 
-                <Scene key="auth" barButtonIconStyle={{ tintColor:'black' }} >
+                <Scene key="auth" barButtonIconStyle={{ tintColor:'black' }} type={ActionConst.RESET}  >
                   <Scene key="login" 
                                         component={LoginForm} 
                                         title="KAVA" 
@@ -50,9 +56,10 @@ class RouterComponent extends Component {
                     <Scene key="locations" 
                                         component={Locations} 
                                         title="LOCATIONS" 
-                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightTitle={"Logout"}
                                         rightButtonIconStyle={styles.menuIcon}
-                                        onRight={()=> this.onRightNavPress() } />
+                                        onRight={() => this.logout() }
+                                        type={ActionConst.RESET}  />
                     <Scene key="menu" 
                                         component={Menu} 
                                         title="MENU" 
@@ -97,6 +104,14 @@ class RouterComponent extends Component {
                                         backTitle="MENU"
                                         backButtonTextStyle={styles.backButtonStyle}
                                         onRight={ () => this.onRightNavPress() } />
+                    <Scene key="orderTracking" 
+                                        component={OrderTracking} title="KAVA" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon} 
+                                        onBack={()=> Actions.menu() } 
+                                        backTitle="NEW ORDER"
+                                        backButtonTextStyle={styles.backButtonStyle}
+                                        onRight={ () => this.onRightNavPress() } />
                 </Scene>
         </Router>
       );
@@ -127,4 +142,4 @@ const styles = {
 }
 
 
-export default connect(null, actions)(RouterComponent);
+export default connect(null, {logoutUser, toggleSideMenu, navigateInAuth})(RouterComponent);

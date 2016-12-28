@@ -4,12 +4,14 @@ import React, { Component } from 'react';
 import { ListView,  StyleSheet, View, Text, PixelRatio } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 //Custom
 import { Button } from '../common';
 import Totals from '../checkout/Totals';
 import BalanceBar from '../checkout/BalanceBar';
-import { orderFetch } from '../../actions/OrderActionCreators';
+import { orderFetch, updateOrderPrice } from '../../actions/OrderActionCreators';
 import OrderItem from '../checkout/OrderItem';
+import SideMenu from './SideMenu';
 //Font Scaling
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
@@ -19,7 +21,16 @@ class Checkout extends Component {
 
     componentWillMount() { this.props.orderFetch(); this.createDataSource(this.props);}
 
-    componentWillReceiveProps(nextProps) { this.createDataSource(nextProps);}
+    componentWillReceiveProps(nextProps) { 
+      this.createDataSource(nextProps);
+      //Add up cart prices to get sub-total
+      var itemsArray = nextProps.items;
+      var arrayLength = itemsArray.length;
+      var subTotal = 0;
+      for (var i = 0; i < arrayLength; i++) subTotal += itemsArray[i].price;
+      //If the subtotal is different from what's in redux, then update the store
+      if (subTotal !== nextProps.orderPrice) this.props.updateOrderPrice(subTotal);
+    }
 
     createDataSource({ items }) {
       const ds = new ListView.DataSource({
@@ -30,9 +41,30 @@ class Checkout extends Component {
     }
 
     submitOrder(items){
-        //***TODO: update hardcoded values for location, customer, password, etc. ***
-        firebase.database().ref(`/openOrders/${this.props.location.uid}`)
-        .push({customer: 'Ross Landry', status: 'Submitted', items})
+      //User
+      const currentUser = firebase.auth().currentUser;
+      const uid = currentUser.uid;
+      
+      const newOrder = firebase.database().ref(`/customerOrders/openOrders/${uid}`)
+      .push({ 
+                  items, 
+                  status: 'Submitted',
+                  qty:items.length,
+                  location: this.props.location.uid
+              });
+
+      const customerOrderUID = newOrder.getKey();
+      
+      firebase.database().ref(`/storeOrders/openOrders/${this.props.location.uid}`)
+      .push({
+                  customer:this.props.name, 
+                  userUID:currentUser.uid, 
+                  items, 
+                  qty:items.length, 
+                  customerOrderUID 
+              });
+
+        Actions.orderTracking();
     }
 
     renderRow(item) { return <OrderItem item={item} /> }
@@ -40,18 +72,20 @@ class Checkout extends Component {
     render() {
       const { card, cartContainer, balanceContainer } = styles;
       return (
-        <View style={cartContainer}>
-            <View style={card}>
-              <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow}
-               />
-            </View>
-            <Totals />
-            <BalanceBar />
-          <Button customStyle={{flex:4}} onPress={()=>{this.submitOrder(this.props.items)}}>SUBMIT ORDER</Button>
-        </View>
+        <SideMenu open={this.props.showMenu}>
+          <View style={cartContainer}>
+              <View style={card}>
+                <ListView
+                  enableEmptySections
+                  dataSource={this.dataSource}
+                  renderRow={this.renderRow}
+                 />
+              </View>
+              <Totals />
+              <BalanceBar />
+            <Button customStyle={{flex:4}} onPress={()=>{this.submitOrder(this.props.items)}}>SUBMIT ORDER</Button>
+          </View>
+        </SideMenu>
       );
     }
 }
@@ -83,10 +117,12 @@ const mapStateToProps = state => {
     const items = _.map(state.order.orderItems, (val, uid) => {
         return { ...val, uid };
     });
-
+    const orderPrice = state.order.orderPrice;
     const location = state.location.currentStore;
-
-    return { items, location };
+    const { firstName, lastName } = state.auth;
+    const name = `${firstName} ${lastName}`;
+    const showMenu = state.sideMenu.showMenu;
+    return { items, location, name, showMenu, orderPrice};
 };
 
-export default connect (mapStateToProps, { orderFetch })(Checkout);
+export default connect (mapStateToProps, { orderFetch, updateOrderPrice})(Checkout);

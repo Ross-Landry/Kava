@@ -25,7 +25,7 @@ class Totals extends Component {
                            Subtotal:
                          </Text>
                          <Text style={totalsValues}>
-                           $10.00
+                           ${this.props.subTotal}
                          </Text>
                   </View>
                   <View style={centeredRow}>
@@ -33,7 +33,7 @@ class Totals extends Component {
                            Tax:
                          </Text>
                          <Text style={totalsValues}>
-                           0.70
+                           {(this.props.subTotal*0.07).toFixed(2)}
                          </Text>
                   </View>
                   <View style={centeredRow}>
@@ -41,7 +41,7 @@ class Totals extends Component {
                            Total:
                          </Text>
                          <Text style={[ totalsValues, {fontWeight: 'bold'} ]}>
-                           $10.70
+                           ${(this.props.subTotal*1.07).toFixed(2)}
                          </Text>
                   </View>
                </View>
@@ -82,11 +82,10 @@ const styles = {
   }
 };
 
-// const mapStateToProps = state => {
-//     return {
-//       coffee: state.currentCoffee,
-//       loading: state.order.loading
-//     };
-// };
+const mapStateToProps = state => {
+    return {
+      subTotal: state.order.orderPrice,
+    };
+};
 
-export default Totals;
+export default connect (mapStateToProps, null)(Totals);

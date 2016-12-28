@@ -4,12 +4,13 @@ import {
     ADD_TO_ORDER_SUCCESS,
     SELECT_ORDER_ITEM,
     REMOVE_CART_ITEM,
-    ORDER_FETCH_SUCCESS
+    ORDER_FETCH_SUCCESS,
+    UPDATE_ORDER_PRICE
 } from './types';
 import { Actions } from 'react-native-router-flux';
 
 export const addToOrder = (item) => {
-    const { currentUser } = firebase.auth();
+    const currentUser = firebase.auth().currentUser;
     return (dispatch) => {
       dispatch({ type: ADD_TO_ORDER_START });
       firebase.database().ref(`/users/${currentUser.uid}/currentOrder`)
@@ -50,5 +51,12 @@ export const selectOrderItem = (id) => {
   return {
     type: SELECT_ORDER_ITEM,
     payload: id
+  };
+};
+
+export const updateOrderPrice = (price) => {
+  return {
+    type: UPDATE_ORDER_PRICE,
+    payload: price
   };
 };

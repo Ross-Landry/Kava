@@ -6,7 +6,8 @@ import {
   AUTH_FAIL,
   NAVIGATE_IN_AUTH,
   LOGOUT_SUCCESS,
-  UPDATE_ERROR_MESSAGE
+  UPDATE_ERROR_MESSAGE,
+  FETCH_NAME
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -15,7 +16,11 @@ const INITIAL_STATE = {
     confirmPassword:'',
     error: '',
     user: null,
-    loading: false
+    loading: false,
+    firstName: '',
+    lastName: '',
+    firstNameEntry: '',
+    lastNameEntry: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,7 +32,18 @@ export default (state = INITIAL_STATE, action) => {
     case CREATE_USER_START:
       return { ...state, loading: true}
     case LOGIN_SUCCESS:
-      return { ...state, user: action.payload, email: '', password: '', error: '', confirmPassword: '', loading: false }
+      return { 
+          ...state, 
+          user: action.payload, 
+          firstName: action.payload.name.first, 
+          lastName: action.payload.name.last,
+          email: '', 
+          password: '',
+          firstNameEntry: '',
+          lastNameEntry: '', 
+          error: '', 
+          confirmPassword: '', 
+          loading: false }
     case AUTH_FAIL:
       return { ...state, error: action.payload, password: '', confirmPassword: '', loading: false }
     case NAVIGATE_IN_AUTH:
@@ -36,6 +52,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, user:null }
     case UPDATE_ERROR_MESSAGE:
       return { ... state, error: action.payload }
+    case FETCH_NAME:
+      return { ... state, firstName: action.payload.name.first, lastName: action.payload.name.last }
     default:
       return state;
   }

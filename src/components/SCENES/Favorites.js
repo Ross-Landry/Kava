@@ -9,6 +9,7 @@ import { Button } from '../common';
 import { favoritesFetch } from '../../actions/FavoritesActionCreators';
 import FavoriteItem from '../checkout/FavoriteItem';
 import ReviewFavorite from './ReviewFavorite';
+import SideMenu from './SideMenu';
 //Font Scaling
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
@@ -33,6 +34,7 @@ class Favorites extends Component {
     render() {
       const { card, cartContainer } = styles;
       return (
+      <SideMenu open={this.props.showMenu}>
         <View style={cartContainer}>
             <View style={card}>
               <ListView
@@ -44,6 +46,7 @@ class Favorites extends Component {
           <Button onPress={()=>Actions.checkout()}customStyle={{flex:4}}>Review Current Order</Button>
           <ReviewFavorite item={this.props.currentItem}/>
         </View>
+      </SideMenu>
       );
     }
 }
@@ -72,11 +75,14 @@ const styles = {
 };
 
 const mapStateToProps = state => {
+    
     const items = _.map(state.favorites.favoriteItems, (val, uid) => {
         return { ...val, uid };
     });
     const currentItem = state.favorites.selectedFavorite;
-    return { items, currentItem };
+    const showMenu = state.sideMenu.showMenu;
+    
+    return { items, currentItem, showMenu };
 };
 
 export default connect (mapStateToProps, { favoritesFetch })(Favorites);

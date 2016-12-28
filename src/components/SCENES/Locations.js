@@ -1,11 +1,16 @@
 //Libraries
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 //Custom
 import LocationsList from '../location/LocationsList';
+import { fetchName } from '../../actions/AuthActionCreators';
+import SideMenu from './SideMenu';
 
 class Locations extends Component {
-
+    componentWillMount(){
+        this.props.fetchName();
+    }
     render() {
       return (
           <LocationsList />
@@ -13,6 +18,13 @@ class Locations extends Component {
     }
 };
 
+const mapStateToProps = state => {
 
-export default Locations;
+    const showMenu = state.sideMenu.showMenu;
+
+    return { showMenu };
+};
+
+export default connect(mapStateToProps, { fetchName })(Locations);
+
 

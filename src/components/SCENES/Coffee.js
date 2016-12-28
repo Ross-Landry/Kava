@@ -11,11 +11,13 @@ import CheckOutButtons from '../coffee/CheckOutButtons';
 import RegDecaf from '../coffee/RegDecaf';
 import SizeSelector from '../coffee/SizeSelector';
 import SaveFavorite from './SaveFavorite';
+import SideMenu from './SideMenu';
 
 class Coffee extends Component {
 
     render(){
       return (
+        <SideMenu open={this.props.showMenu}>
           <View style={styles.bigContainer}>
             <HotIced />
             <SizeSelector />
@@ -25,6 +27,7 @@ class Coffee extends Component {
             <CheckOutButtons />
             <SaveFavorite item={this.props.item}/>
           </View>
+        </SideMenu>
       );
     }
 }
@@ -41,7 +44,9 @@ const styles = {
 
 const mapStateToProps = state => {
   return {
-      item: state.currentCoffee
+      item: state.currentCoffee,
+      showMenu: state.sideMenu.showMenu
+
   }
 }
 

@@ -29,14 +29,5 @@ class kava extends Component {
   }
 }
 
-const styles = {
-  bigContainer:{
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
-    position: 'relative',
-    flex: 1
-  }
-}
-
 
 AppRegistry.registerComponent('kava', () => kava);

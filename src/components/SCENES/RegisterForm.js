@@ -14,9 +14,9 @@ class RegisterForm extends Component {
   state = {};
 
   onButtonPress() {
-    const { email, password, confirmPassword } = this.props;
+    const { email, password, confirmPassword, firstNameEntry, lastNameEntry } = this.props;
     if (password === confirmPassword){
-      this.props.createUser({email, password});
+      this.props.createUser({email, password, firstNameEntry, lastNameEntry});
     }
     else {
       this.props.updateError("Passwords don't match.");
@@ -41,6 +41,24 @@ class RegisterForm extends Component {
       <Card>
         <CardSection>
           <Input
+            placeholder="first"
+            label="First Name"
+            value={this.props.firstNameEntry}
+            onChangeText={value => this.props.updateLoginEntry({ prop: 'firstNameEntry', value })}
+          />
+        </CardSection>
+        
+        <CardSection>  
+          <Input
+            placeholder="last"
+            label="Last Name"
+            value={this.props.lastNameEntry}
+            onChangeText={value => this.props.updateLoginEntry({ prop: 'lastNameEntry', value })}
+          />
+        </CardSection>
+
+        <CardSection>
+          <Input
             placeholder="abc@email.com"
             label="Email"
             value={this.props.email}
@@ -57,6 +75,7 @@ class RegisterForm extends Component {
             onChangeText={value => this.props.updateLoginEntry({ prop: 'password', value })}
           />
         </CardSection>
+
         <CardSection>
           <Input
             secureTextEntry
@@ -66,6 +85,7 @@ class RegisterForm extends Component {
             onChangeText={value => this.props.updateLoginEntry({ prop: 'confirmPassword', value })}
           />
         </CardSection>
+        
         <Text style={styles.errorTextStyle}>
             {this.props.error}
         </Text>
@@ -96,9 +116,9 @@ const styles = {
 
 const mapStateToProps = ( { auth } ) => {
 
-  const { email, password, confirmPassword, error, loading } = auth;
+  const { email, password, confirmPassword, error, loading, firstNameEntry, lastNameEntry } = auth;
 
-  return { email, password, confirmPassword, error, loading };
+  return { email, password, confirmPassword, error, loading, firstNameEntry, lastNameEntry };
 
 };
 

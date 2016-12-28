@@ -11,13 +11,22 @@ const {height:h, width:w} = Dimensions.get('window');
 //Custom
 import { Button } from '../common'
 import { menuFetch } from '../../actions/MenuActionCreators';
+import { toggleSideMenu } from '../../actions/SideMenuActionCreators';
 import MenuItem from '../menu/MenuItem';
 import CurrentLocation from '../location/CurrentLocationBanner';
 import { card } from '../../styles/styleObjects';
+import SideMenu from './SideMenu';
 
 class Menu extends Component {
     
-    componentWillMount() {this.props.menuFetch(); this.createDataSource(this.props);}
+    componentWillMount() {
+      this.props.menuFetch(); 
+      this.createDataSource(this.props);
+      //Close the SideMenu if it's visible when the food menu loads
+      if (this.props.showMenu){
+            this.props.toggleSideMenu();
+      }
+    }
 
     componentWillReceiveProps(nextProps) { this.createDataSource(nextProps);}
 
@@ -34,22 +43,23 @@ class Menu extends Component {
     render() {
       const { favorites } = styles
       return (
-     
-      <View style={{flexDirection: 'column', flex: 1}}>
-          <CurrentLocation />
-          <View style={[card, {flex:21}]}>
-              <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow} />
-          </View>
-          <View style={{flex:4}}>
-              <MenuItem item={favorite} customStyle={favorites}/>
-          </View>
-          <Button customStyle={{flex:4}} onPress={() => Actions.checkout() }>
-              Review Current Order
-          </Button>
-      </View>
+          <SideMenu open={this.props.showMenu}>
+            <View style={{flexDirection: 'column', flex: 1}}>
+                <CurrentLocation />
+                <View style={[card, {flex:21}]}>
+                    <ListView
+                      enableEmptySections
+                      dataSource={this.dataSource}
+                      renderRow={this.renderRow} />
+                </View>
+                <View style={{flex:4}}>
+                    <MenuItem item={favorite} customStyle={favorites}/>
+                </View>
+                <Button customStyle={{flex:4}} onPress={() => Actions.checkout() }>
+                    Review Current Order
+                </Button>
+            </View>
+          </SideMenu>
       );
     }
 };
@@ -71,8 +81,10 @@ const mapStateToProps = state => {
     const menu = _.map(state.menu.menu, (val, uid) => {
         return { ...val, uid };
     });
-    return { menu };
+    const showMenu = state.sideMenu.showMenu;
+
+    return { menu, showMenu };
 };
 
 
-export default connect (mapStateToProps, { menuFetch })(Menu);
+export default connect (mapStateToProps, { menuFetch, toggleSideMenu })(Menu);

@@ -33,9 +33,6 @@ class NameFavorite extends Component {
         <View style={mainContainer}>
             <View style={textContainer}>
               <View style={[textWrapper, {justifyContent: 'flex-start'}]}>
-                <View>
-                  <Text style={labelStyle}>Name your favorite! (optional)</Text>
-                </View>
                 <TextInput
                   placeholder="Example: My Morning Coffee"
                   autoCorrect={false}
@@ -43,6 +40,9 @@ class NameFavorite extends Component {
                   value={this.props.favoriteTitle}
                   onChangeText={(value)=>this.props.updateFavoriteTitle(value)}
                 />
+                <View>
+                  <Text style={labelStyle}>Name your favorite! (optional)</Text>
+                </View>
               </View>
               <View style={[textWrapper, {alignItems: 'flex-end'}]}>
               </View>

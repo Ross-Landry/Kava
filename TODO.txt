@@ -1,16 +1,13 @@
 TO DO
+  
   Location
     -Use geofire to do a conditional fetch. Get locations within X miles of coordinates Y,Z. Hardcode user location to start.
     -Change the hardcoded user coordinates to actually pull from the user's GPS
     -If possible, list the locations with the closest at the top
+  
   Business Side
-    -Create new app with a ListView
-    -Hardcode a location into a redux store
-    -Instantiate firebase on index.ios
-    -Pull in orders from firebase with componentWillMount of ListView component
-    -Make OrderMetaItem component to fill in the list 
-    -onPress move to a new component that will also be a ListView
-    -The order ListView will render the order items
+    -onPress move to a new component that will be a ScrollView
+    -The order ScrollView will render the order items, in full detail
 
     Current location banner - when clicked it should bring up a modal with details about that location. The user can then click to navigate to the change location scene or say 'ok' and return to the menu
 
@@ -22,14 +19,17 @@ TO DO
 
     Snacks - list view with item titles and a short description below it, the price will be on the right. OnPress render a details component with a picture, a more detailed description, the price, and an 'add to order' button. 
 
+    Checkout - Totals are fake. need to add the price of each item to get the subtotal. pull the sales tax percentage from the RTB to calculate the tax. 
+
 
 *********************** Liabilities ************************
+**When a new user logs in to a device that already had someone else logged into it, there may be some unwanted data in the redux store. May need to reset everything to 'initial state' on new login. 
 
-** Check the confirm password entry on registration screen (only let the user submit the form if the passwords match)
+**Navigation seems to fail after switching back and forth from Login to Register and then logging in. The same error has popped up in other situations. "conflict in Navigation child..."
+
+**When a user changes location, the menu will update to only show items sold at that store. The cart will also need to update to only show items that the user can get at that store -same with favorites.
 
 **Make sure that users can’t add items to cart or favorites -if they have not completed the form. (Not selected a size etc.)
-
-**Disable landscape view. Portrait only
 
 **Currently hard coded price and location data will need to come from the database. Eg: Price of certain coffee sizes and expresso shots etc. If hard coded then we will not be able to update the prices without user updating the app.
 
@@ -39,6 +39,6 @@ TO DO
 
 **Error handling!! Add catches to network requests and notify user when there are issues
 
-**For now just assuming that the GPS will be enabled. Eventually need to add the option to search loations by zip code, address etc. 
+**For now just assuming that the GPS will be enabled for sorting locations. Eventually need to add the option to search locations by zip code, address etc. 
 
 **When you select the lowest item on the checkout listView the buttons render outside of view

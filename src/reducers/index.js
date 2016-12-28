@@ -6,6 +6,7 @@ import OrderReducer from './OrderReducer';
 import FavoritesReducer from './FavoritesReducer';
 import LocationReducer from './LocationReducer';
 import MenuReducer from './MenuReducer';
+import SideMenuReducer from './SideMenuReducer';
 
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
     order: OrderReducer,
     favorites: FavoritesReducer,
     location: LocationReducer,
-    menu: MenuReducer
+    menu: MenuReducer,
+    sideMenu: SideMenuReducer 
   });
