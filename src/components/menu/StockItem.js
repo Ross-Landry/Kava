@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, Text, View, TouchableOpacity, PixelRatio } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 //Font Adjustment
 import { getCorrectFontSizeForScreen } from '../../helpers/multipleResolution';
 import Dimensions from 'Dimensions';
@@ -10,29 +10,29 @@ const {height:h, width:w} = Dimensions.get('window');
 //Style
 import { mainFont } from '../../styles/styleObjects';
 //Custom
-import { selectStockMenu } from '../../actions/MenuActionCreators'
+import { selectStockItem, fetchImage, imageOutdated } from '../../actions/MenuActionCreators'
 
 
-class MenuItem extends Component {
+class StockItem extends Component {
 
   componentWillUpdate() {
     LayoutAnimation.linear();
   }
 
   itemPressed() {
-    const { routerKey, menuType } = this.props.item;
-    Actions[routerKey]();
-    this.props.selectStockMenu(menuType);
-
+    this.props.selectStockItem(this.props.item);
+    this.props.imageOutdated();
+    this.props.fetchImage(this.props.item.picturePath);
+    Actions.stockItem();
   }
 
   render() {
     
-    const { itemContainer, favoriteName } = styles
+    const { itemContainer, favoriteName } = styles;
     return (
         <TouchableOpacity onPress={()=>this.itemPressed()}>
                 <View style={itemContainer}>
-                    <Text style={[favoriteName, this.props.customStyle, mainFont]}>{this.props.item.uid.substring(1)}</Text>
+                    <Text style={[favoriteName, this.props.customStyle, mainFont]}>{this.props.item.uid}</Text>
                 </View>
         </TouchableOpacity>
 
@@ -54,11 +54,4 @@ const styles = {
   }
 };
 
-const mapStateToProps = state => {
-
-    const menuType = state.menu.menuType;
-
-    return { menuType };
-};
-
-export default connect(mapStateToProps, { selectStockMenu })(MenuItem);
+export default connect(null, {selectStockItem, fetchImage, imageOutdated})(StockItem);

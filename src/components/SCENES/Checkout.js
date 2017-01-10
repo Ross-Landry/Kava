@@ -64,6 +64,10 @@ class Checkout extends Component {
                   customerOrderUID 
               });
 
+      firebase.database().ref(`/users/${uid}/currentOrder`)
+      .remove()
+
+
         Actions.orderTracking();
     }
 
@@ -81,7 +85,7 @@ class Checkout extends Component {
                   renderRow={this.renderRow}
                  />
               </View>
-              <Totals />
+              <Totals taxRate={this.props.location.taxRate}/>
               <BalanceBar />
             <Button customStyle={{flex:4}} onPress={()=>{this.submitOrder(this.props.items)}}>SUBMIT ORDER</Button>
           </View>

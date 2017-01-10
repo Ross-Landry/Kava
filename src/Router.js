@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Scene, Router, Actions, ActionConst } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+//Scenes
 import LoginForm from './components/SCENES/LoginForm';
 import RegisterForm from './components/SCENES/RegisterForm';
 import Coffee from './components/SCENES/Coffee';
@@ -9,10 +10,13 @@ import Locations from './components/SCENES/Locations';
 import Menu from './components/SCENES/Menu';
 import Checkout from './components/SCENES/Checkout';
 import Favorites from './components/SCENES/Favorites';
+import StockItems from './components/SCENES/StockItems';
+import StockItem from './components/SCENES/StockItem';
+import OrderTracking from './components/SCENES/OrderTracking';
+//Action Creators
 import { toggleSideMenu } from './actions/SideMenuActionCreators';
 import {logoutUser, navigateInAuth} from './actions/AuthActionCreators';
-
-import OrderTracking from './components/SCENES/OrderTracking';
+import { imageOutdated } from './actions/MenuActionCreators'
 //Font Adjustment
 import { PixelRatio } from 'react-native';
 import { getCorrectFontSizeForScreen } from './helpers/multipleResolution';
@@ -104,6 +108,23 @@ class RouterComponent extends Component {
                                         backTitle="MENU"
                                         backButtonTextStyle={styles.backButtonStyle}
                                         onRight={ () => this.onRightNavPress() } />
+                    <Scene key="stockItems" 
+                                        component={StockItems} title="" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon} 
+                                        onBack={()=> Actions.menu() } 
+                                        backTitle="MENU"
+                                        backButtonTextStyle={styles.backButtonStyle}
+                                        onRight={ () => this.onRightNavPress() }
+                                         />
+                    <Scene key="stockItem" 
+                                        component={StockItem} title="" 
+                                        rightButtonImage={require('./images/MenuIcon.png')}
+                                        rightButtonIconStyle={styles.menuIcon} 
+                                        onBack={()=> {this.props.imageOutdated(); Actions.pop();}} 
+                                        backTitle="BACK"
+                                        backButtonTextStyle={styles.backButtonStyle}
+                                        onRight={ () => this.onRightNavPress() } />
                     <Scene key="orderTracking" 
                                         component={OrderTracking} title="KAVA" 
                                         rightButtonImage={require('./images/MenuIcon.png')}
@@ -142,4 +163,4 @@ const styles = {
 }
 
 
-export default connect(null, {logoutUser, toggleSideMenu, navigateInAuth})(RouterComponent);
+export default connect(null, {logoutUser, toggleSideMenu, navigateInAuth, imageOutdated})(RouterComponent);

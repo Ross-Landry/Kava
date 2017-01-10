@@ -29,7 +29,7 @@ const styles = {
     paddingTop: 2
   },
   extraStyle: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
     paddingRight:4

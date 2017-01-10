@@ -20,7 +20,7 @@ import SideMenu from './SideMenu';
 class Menu extends Component {
     
     componentWillMount() {
-      this.props.menuFetch(); 
+      this.props.menuFetch(this.props.locationUID); 
       this.createDataSource(this.props);
       //Close the SideMenu if it's visible when the food menu loads
       if (this.props.showMenu){
@@ -64,10 +64,9 @@ class Menu extends Component {
     }
 };
 
-const favorite = {
-    component:"Favorites", 
+const favorite = { 
     routerKey:"favorites", 
-    uid: "Favorites"
+    uid: "xFavorites"
 };
 const styles = {
   favorites: {
@@ -83,7 +82,9 @@ const mapStateToProps = state => {
     });
     const showMenu = state.sideMenu.showMenu;
 
-    return { menu, showMenu };
+    const locationUID = state.location.currentStore.uid;
+
+    return { menu, showMenu, locationUID };
 };
 
 

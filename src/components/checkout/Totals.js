@@ -25,7 +25,7 @@ class Totals extends Component {
                            Subtotal:
                          </Text>
                          <Text style={totalsValues}>
-                           ${this.props.subTotal}
+                           ${this.props.subTotal.toFixed(2)}
                          </Text>
                   </View>
                   <View style={centeredRow}>
@@ -33,7 +33,7 @@ class Totals extends Component {
                            Tax:
                          </Text>
                          <Text style={totalsValues}>
-                           {(this.props.subTotal*0.07).toFixed(2)}
+                           {(this.props.subTotal*this.props.taxRate).toFixed(2)}
                          </Text>
                   </View>
                   <View style={centeredRow}>

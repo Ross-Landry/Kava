@@ -8,23 +8,40 @@ const {height:h, width:w} = Dimensions.get('window');
 import { mainFont } from '../../styles/styleObjects';
 
 class TitleDescription extends Component {
-
+  renderDescription(itemText, descriptionText, containerStyle, itemTitleDescriptionContainer){
+    if (this.props.description !== ''){
+      return(
+              <View style={[containerStyle, itemTitleDescriptionContainer]}>
+                <View>
+                  <Text style={[itemText, mainFont]}>
+                    {this.props.title}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={descriptionText}>
+                    {this.props.description}
+                  </Text>
+                </View>
+              </View>
+      );
+    }
+    else{  
+      return(
+              <View style={[containerStyle, itemTitleDescriptionContainer, {padding: 12}]}>
+                <Text style={[itemText, mainFont,{padding: 12}]}>
+                  {this.props.title}
+                </Text>
+              </View>
+      );
+    }
+  }
   render(){
     const { containerStyle, extraStyle, itemTitleDescriptionContainer, itemText, descriptionText } = styles;
 
     return(
-      <View style={[containerStyle, itemTitleDescriptionContainer]}>
         <View>
-          <Text style={[itemText, mainFont]}>
-            {this.props.title}
-          </Text>
+          {this.renderDescription(itemText, descriptionText, containerStyle, itemTitleDescriptionContainer)}
         </View>
-        <View>
-          <Text style={descriptionText}>
-            {this.props.description}
-          </Text>
-        </View>
-      </View>
       );
   }
 };
@@ -44,10 +61,11 @@ const styles = {
     paddingBottom: 3
   },
   itemTitleDescriptionContainer: {
-    flex: 4,
+    flex: 8,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    width: w*0.65
   },
   descriptionText: {
     fontSize: getCorrectFontSizeForScreen(PixelRatio, w,h,12),
