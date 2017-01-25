@@ -77,7 +77,6 @@ const styles = {
   }
 };
 const mapStateToProps = state => {
-    console.log(state.currentCoffee);
     return {
       coffee: state.currentCoffee,
       loading: state.order.loading

@@ -11,11 +11,11 @@ class kava extends Component {
 
   componentWillMount() {
     firebase.initializeApp({
-        apiKey: "AIzaSyBaty4kZaEkWyVXZ3Z9DT3wggv-XyptVAM",
-        authDomain: "fire-7415c.firebaseapp.com",
-        databaseURL: "https://fire-7415c.firebaseio.com",
-        storageBucket: "fire-7415c.appspot.com",
-        messagingSenderId: "627667827953"
+      apiKey: "AIzaSyAT-nL8DyPwu5GdvLfUCJSocEJX_mn4H4k",
+      authDomain: "kava-42a4c.firebaseapp.com",
+      databaseURL: "https://kava-42a4c.firebaseio.com",
+      storageBucket: "kava-42a4c.appspot.com",
+      messagingSenderId: "1039484822995"
     });
   }
 

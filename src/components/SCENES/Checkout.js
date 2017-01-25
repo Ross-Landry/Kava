@@ -47,17 +47,17 @@ class Checkout extends Component {
 
     submitOrder(items){
       
+      //Get the users balance, calculate the total price with tax
       this.props.balanceFetch();
       const {orderPrice, balance} = this.props;
       const taxRate = this.props.location.taxRate;
       const priceWithTax = orderPrice + (orderPrice*taxRate);
-      console.log(priceWithTax);
-      console.log(balance);
       
+      //Check that the user's balance exceeds the total price and then submit the order
       if((balance - priceWithTax) >= -0.005 ){
               
               //Get DATE/TIME
-              var dateTime = new Date();
+              const dateTime = firebase.database.ServerValue.TIMESTAMP;
 
               //Get user ID
               const currentUser = firebase.auth().currentUser;
