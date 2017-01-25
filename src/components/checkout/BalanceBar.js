@@ -19,7 +19,7 @@ class BalanceBar extends Component {
            </View>
            <View style={{flex:1}}>
           <Text style={balanceText}>
-            Balance: $20
+            Balance: ${this.props.balance.toFixed(2)}
           </Text>
           </View>
         </View>
@@ -44,11 +44,10 @@ const styles = {
   }
 };
 
-// const mapStateToProps = state => {
-//     return {
-//       coffee: state.currentCoffee,
-//       loading: state.order.loading
-//     };
-// };
+mapStateToProps = (state) => {
+  
+  balance = state.balance.balance;
+  return {balance}
 
-export default BalanceBar;
+}
+export default connect (mapStateToProps, null)(BalanceBar);

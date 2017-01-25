@@ -16,7 +16,7 @@ import {
 
 const INITIAL_STATE = {
     title:  '',
-    decaf: '',
+    teaDecaf: '',
     decafBool: false,
     regularBool: false,
     size: '',
@@ -43,11 +43,11 @@ export default (state = INITIAL_STATE, action) => {
     case UPDATE_TEA_DESCRIPTION:
       return {
         ...state,
-        description: `${state.decaf} ${state.creamQty} ${state.cream} ${state.sugarQty} ${state.sugar}`};
+        description: `${state.teaDecaf} ${state.creamQty} ${state.cream} ${state.sugarQty} ${state.sugar}`};
     case TOGGLE_TEA_BOOL:
       return { ...state, [action.payload.prop]: action.payload.value };
     case SELECT_TEA_DECAF:
-      return { ...state, decaf:action.payload};
+      return { ...state, teaDecaf:action.payload};
     case SELECT_TEA_SIZE:
       return { ...state, size:action.payload.size, sizePrice:action.payload.price};
     case UPDATE_TEA_PRICE:

@@ -55,7 +55,9 @@ const createUserSuccess = (dispatch, user, firstNameEntry, lastNameEntry) => {
     const uid = user.uid;
     const name = { first: firstNameEntry, last: lastNameEntry };
     //Add the the user's name to the database
-    firebase.database().ref(`/users/${uid}/name`).set(name)
+    firebase.database().ref(`/users/${uid}/name`).set(name);
+    //Add a starting balance of $0 to the database
+    firebase.database().ref(`/users/${uid}/balance`).set(0);
     //Add the 'user' object to redux store
     dispatch({
         type: LOGIN_SUCCESS,

@@ -41,7 +41,7 @@ class Totals extends Component {
                            Total:
                          </Text>
                          <Text style={[ totalsValues, {fontWeight: 'bold'} ]}>
-                           ${(this.props.subTotal*1.07).toFixed(2)}
+                           ${(this.props.subTotal*(1+this.props.taxRate)).toFixed(2)}
                          </Text>
                   </View>
                </View>

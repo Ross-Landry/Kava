@@ -7,6 +7,7 @@ import FavoritesReducer from './FavoritesReducer';
 import LocationReducer from './LocationReducer';
 import MenuReducer from './MenuReducer';
 import SideMenuReducer from './SideMenuReducer';
+import BalanceReducer from './BalanceReducer';
 
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
     favorites: FavoritesReducer,
     location: LocationReducer,
     menu: MenuReducer,
-    sideMenu: SideMenuReducer 
+    sideMenu: SideMenuReducer,
+    balance: BalanceReducer 
   });

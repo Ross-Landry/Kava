@@ -9,7 +9,9 @@ import ToggleButton from '../common/ToggleButton';
 import * as actions from '../../actions/TeaActionCreators';
 
 class SizeSelector extends Component {
-
+  componentWillMount(){
+    console.log(actions);
+  }
   setSmall(){
     this.props.toggleTeaBool({ prop: "smallBool", value: true });
     this.props.toggleTeaBool({ prop: "mediumBool", value: false });

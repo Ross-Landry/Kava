@@ -9,7 +9,31 @@ import { toggleFavoriteModal } from '../../actions/FavoritesActionCreators';
 class CheckOutButtons extends Component {
 
     addToOrder(){
-      this.props.addToOrder(this.props.coffee);
+
+      const {smallBool, mediumBool, largeBool} = this.props.coffee;
+      
+      if ((smallBool === false) && (mediumBool == false) && (largeBool == false)){
+
+        alert('You must select the size before adding coffee to the order.');
+
+      }
+      else{
+          this.props.addToOrder(this.props.coffee);
+      }
+    }
+
+    addFavorite(){
+
+      const {size, iced} = this.props.coffee;
+      
+      if ((size === "") || (iced === "")){
+
+        alert('You must select the size and "hot or iced" before adding coffee to favorites.');
+
+      }
+      else{
+          this.props.toggleFavoriteModal();
+      }
     }
 
     renderButton() {
@@ -24,7 +48,7 @@ class CheckOutButtons extends Component {
       return (
           <View style={styles.buttonsContainer} >
 
-            <Button customStyle={styles.customButton} onPress={ () => this.props.toggleFavoriteModal() }>
+            <Button customStyle={styles.customButton} onPress={ () => this.addFavorite()}>
               Save to Favorites
             </Button>
 
@@ -53,6 +77,7 @@ const styles = {
   }
 };
 const mapStateToProps = state => {
+    console.log(state.currentCoffee);
     return {
       coffee: state.currentCoffee,
       loading: state.order.loading

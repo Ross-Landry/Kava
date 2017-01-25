@@ -9,7 +9,31 @@ import { toggleFavoriteModal } from '../../actions/FavoritesActionCreators';
 class CheckOutButtons extends Component {
 
     addToOrder(){
-      this.props.addToOrder(this.props.tea);
+
+      const {size, iced} = this.props.tea;
+      
+      if ((size === "") || (iced === "")){
+
+        alert('You must select the size and "hot or iced" before adding tea to the order.');
+
+      }
+      else{
+          this.props.addToOrder(this.props.tea);
+      }
+    }
+
+    addFavorite(){
+
+      const {smallBool, mediumBool, largeBool} = this.props.tea;
+      
+      if ((smallBool === false) && (mediumBool == false) && (largeBool == false)){
+
+        alert('You must select the size before adding tea to favorites.');
+
+      }
+      else{
+          this.props.toggleFavoriteModal();
+      }
     }
 
     renderButton() {
@@ -23,7 +47,7 @@ class CheckOutButtons extends Component {
 
       return (
           <View style={styles.buttonsContainer} >
-            <Button customStyle={styles.customButton} onPress={ () => this.props.toggleFavoriteModal()}>
+            <Button customStyle={styles.customButton} onPress={ () => this.addFavorite()}>
               Save to Favorites
             </Button>
             <Button customStyle={styles.customButton} onPress={ () => this.addToOrder()}>

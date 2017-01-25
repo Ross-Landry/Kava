@@ -10,6 +10,7 @@ import { Button } from '../common';
 import Totals from '../checkout/Totals';
 import BalanceBar from '../checkout/BalanceBar';
 import { orderFetch, updateOrderPrice } from '../../actions/OrderActionCreators';
+import { balanceFetch, balanceDebit } from '../../actions/BalanceActionCreators';
 import OrderItem from '../checkout/OrderItem';
 import SideMenu from './SideMenu';
 //Font Scaling
@@ -19,7 +20,11 @@ const {height:h, width:w} = Dimensions.get('window');
 
 class Checkout extends Component {
 
-    componentWillMount() { this.props.orderFetch(); this.createDataSource(this.props);}
+    componentWillMount() { 
+      this.props.orderFetch(); 
+      this.props.balanceFetch();
+      this.createDataSource(this.props);
+    }
 
     componentWillReceiveProps(nextProps) { 
       this.createDataSource(nextProps);
@@ -41,34 +46,59 @@ class Checkout extends Component {
     }
 
     submitOrder(items){
-      //User
-      const currentUser = firebase.auth().currentUser;
-      const uid = currentUser.uid;
       
-      const newOrder = firebase.database().ref(`/customerOrders/openOrders/${uid}`)
-      .push({ 
-                  items, 
-                  status: 'Submitted',
-                  qty:items.length,
-                  location: this.props.location.uid
-              });
-
-      const customerOrderUID = newOrder.getKey();
+      this.props.balanceFetch();
+      const {orderPrice, balance} = this.props;
+      const taxRate = this.props.location.taxRate;
+      const priceWithTax = orderPrice + (orderPrice*taxRate);
+      console.log(priceWithTax);
+      console.log(balance);
       
-      firebase.database().ref(`/storeOrders/openOrders/${this.props.location.uid}`)
-      .push({
-                  customer:this.props.name, 
-                  userUID:currentUser.uid, 
-                  items, 
-                  qty:items.length, 
-                  customerOrderUID 
-              });
+      if((balance - priceWithTax) >= -0.005 ){
+              
+              //Get DATE/TIME
+              var dateTime = new Date();
 
-      firebase.database().ref(`/users/${uid}/currentOrder`)
-      .remove()
+              //Get user ID
+              const currentUser = firebase.auth().currentUser;
+              const uid = currentUser.uid;
+              
+              //create customer order
+              const newOrder = firebase.database().ref(`/customerOrders/${uid}`)
+              .push({ 
+                          items, 
+                          status: 'Submitted',
+                          qty:items.length,
+                          location: this.props.location.uid,
+                          dateTime
+                      });
+              //Get the orer UID, this will be added to the 'store order' to create a link between the two
+              const customerOrderUID = newOrder.getKey();
+              
+              //create store order
+              firebase.database().ref(`/storeOrders/openOrders/${this.props.location.uid}`)
+              .push({
+                          customer:this.props.name, 
+                          userUID:currentUser.uid, 
+                          items, 
+                          qty:items.length, 
+                          customerOrderUID,
+                          dateTime
+                      })
+              .then(this.props.balanceDebit(priceWithTax))
+
+              //empty cart
+              firebase.database().ref(`/users/${uid}/currentOrder`)
+              .remove()
 
 
-        Actions.orderTracking();
+                Actions.orderTracking();
+      }
+
+      else{
+          alert('Your balance is too low for this order.');
+      }
+
     }
 
     renderRow(item) { return <OrderItem item={item} /> }
@@ -126,7 +156,8 @@ const mapStateToProps = state => {
     const { firstName, lastName } = state.auth;
     const name = `${firstName} ${lastName}`;
     const showMenu = state.sideMenu.showMenu;
-    return { items, location, name, showMenu, orderPrice};
+    const balance = state.balance.balance;
+    return { balance, items, location, name, showMenu, orderPrice};
 };
 
-export default connect (mapStateToProps, { orderFetch, updateOrderPrice})(Checkout);
+export default connect (mapStateToProps, { orderFetch, balanceFetch, balanceDebit, updateOrderPrice})(Checkout);
